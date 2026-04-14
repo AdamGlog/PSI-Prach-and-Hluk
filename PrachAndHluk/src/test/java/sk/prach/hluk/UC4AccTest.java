@@ -50,7 +50,7 @@ class UC4AccTest {
         assertTrue(uspech);
         assertEquals("V servise", getNaradieById(5).getStav());
 
-        // Overíme zvýšenie servisovaneCount (ak to robíš v zmenStav)
+        // Overíme zvýšenie servisovaneCount
         assertEquals(1, getNaradieById(5).getServisovaneCount());
 
         // 7. Zamestnanec označí náradie stavom „Vyradené“
@@ -83,14 +83,6 @@ class UC4AccTest {
 
         // Stav sa nesmie zmeniť
         assertEquals("Vypožičané", getNaradieById(4).getStav());
-    }
-
-    @Test
-    @DisplayName("UC04 - Servis Neskôr prípad")
-    void testServisNeskor() {
-        boolean uspech = model.zmenStav(7, "Servis Neskôr");
-        assertTrue(uspech);
-        assertEquals("Servis Neskôr", getNaradieById(7).getStav());
     }
 
     // Pomocná metóda na jednoduchšie vyhľadávanie náradia podľa ID

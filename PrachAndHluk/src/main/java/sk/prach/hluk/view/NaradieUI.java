@@ -66,7 +66,7 @@ public class NaradieUI extends JFrame {
         buildUI();
     }
 
-    // buildUI - poskladame layout podla Figma: header, center, footer
+    // buildUI - poskladame layout podla header, center, footer
     private void buildUI() {
         setLayout(new BorderLayout());
         add(buildHeader(), BorderLayout.NORTH);
