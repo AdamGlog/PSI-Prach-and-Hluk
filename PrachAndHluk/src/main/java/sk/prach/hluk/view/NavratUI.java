@@ -1,13 +1,40 @@
 package sk.prach.hluk.view;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import javax.swing.*;
-import javax.swing.table.*;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
+
 import sk.prach.hluk.model.Vypozicka;
 
 /**
@@ -35,6 +62,9 @@ public class NavratUI extends JFrame {
     // Listenery — controller ich zaregistruje
     private Consumer<Integer> navratListener;           // vyvolanie navrat dialogu pre danu vypozicku
     private BiConsumer<Integer, String> potvrdenieNavratu; // id, novyStav
+
+    // UC switch callback — main ho odovzda, pouzivame na prepinanie UC kariet
+    private Runnable[] ucSwitchCallback;
 
     // Konstruktor — postavime hlavne okno
     public NavratUI() {
@@ -80,13 +110,17 @@ public class NavratUI extends JFrame {
         nav.setBackground(Color.WHITE);
         nav.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         String[] labels = {"UC1", "UC2", "UC3", "UC4"};
-        for (String lbl : labels) {
-            JButton btn = new JButton(lbl);
+        for (int i = 0; i < labels.length; i++) {
+            final int idx = i;
+            JButton btn = new JButton(labels[i]);
             btn.setFont(new Font("SansSerif", Font.PLAIN, 14));
             btn.setFocusPainted(false);
             btn.setBorder(BorderFactory.createLineBorder(DARK_GREY));
-            btn.setBackground(lbl.equals("UC3") ? ORANGE : Color.WHITE);
-            btn.setForeground(lbl.equals("UC3") ? Color.WHITE : Color.BLACK);
+            btn.setBackground(labels[i].equals("UC3") ? ORANGE : Color.WHITE);
+            btn.setForeground(labels[i].equals("UC3") ? Color.WHITE : Color.BLACK);
+            btn.addActionListener(e -> {
+                if (ucSwitchCallback != null) ucSwitchCallback[idx].run();
+            });
             nav.add(btn);
         }
 
@@ -523,4 +557,7 @@ public class NavratUI extends JFrame {
             return lbl;
         }
     }
+
+    // setUcSwitchCallback - main odovzda pole Runnable pre prepinanie UC kariet
+    public void setUcSwitchCallback(Runnable[] callbacks) { this.ucSwitchCallback = callbacks; }
 }
