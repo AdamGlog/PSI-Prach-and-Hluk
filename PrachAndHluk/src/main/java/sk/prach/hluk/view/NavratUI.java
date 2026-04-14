@@ -377,7 +377,7 @@ public class NavratUI extends JFrame {
 
         ButtonGroup stavGroup = new ButtonGroup();
         JRadioButton rbDostupne  = makeRadio("✅  Dostupné – bez poškodenia",  stavGroup, true);
-        JRadioButton rbServis    = makeRadio("🔧  V servise – potrebuje opravu", stavGroup, false);
+        JRadioButton rbServis    = makeRadio("🔧  V servise", stavGroup, false);
         JRadioButton rbPoskodene = makeRadio("⚠  Poškodené – zákazník zodpovedá", stavGroup, false);
 
         for (JRadioButton rb : new JRadioButton[]{rbDostupne, rbServis, rbPoskodene}) {
