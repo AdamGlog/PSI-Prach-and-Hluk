@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -22,9 +23,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -249,7 +252,7 @@ public class NaradieUI extends JFrame {
     // openSortFilterModal - modal okno pre zoradenie a filtrovanie zoznamu
     public void openSortFilterModal() {
         JDialog dlg = new JDialog(this, "Zoradiť & Filtrovať", true);
-        dlg.setSize(330, 240);
+        dlg.setSize(330, 280);
         dlg.setLocationRelativeTo(this);
         dlg.setLayout(new BorderLayout());
 
@@ -261,22 +264,24 @@ public class NaradieUI extends JFrame {
         g.anchor = GridBagConstraints.WEST;
 
         g.gridx = 0; g.gridy = 0; g.gridwidth = 3;
-        JLabel title = new JLabel("Zoradiť & Filtrovať");
-        title.setFont(new Font("SansSerif", Font.BOLD, 15));
-        body.add(title, g);
+        body.add(new JLabel("Zoradiť & Filtrovať"), g);
         g.gridwidth = 1;
 
-        // Vypozicane
+        // Vypožičané
         g.gridx = 0; g.gridy = 1; body.add(new JLabel("Vypožičané"), g);
-        JButton vAsc  = makeSortArrow("↑"); JButton vDesc = makeSortArrow("↓");
+        JButton vAsc = makeSortArrow("↑");
+        JButton vDesc = makeSortArrow("↓");
         vDesc.setBackground(ORANGE); vDesc.setForeground(Color.WHITE);
-        g.gridx = 1; body.add(vAsc, g); g.gridx = 2; body.add(vDesc, g);
+        g.gridx = 1; body.add(vAsc, g);
+        g.gridx = 2; body.add(vDesc, g);
         togglePair(vAsc, vDesc);
 
-        // Servisovane
+        // Servisované
         g.gridx = 0; g.gridy = 2; body.add(new JLabel("Servisované"), g);
-        JButton sAsc  = makeSortArrow("↑"); JButton sDesc = makeSortArrow("↓");
-        g.gridx = 1; body.add(sAsc, g); g.gridx = 2; body.add(sDesc, g);
+        JButton sAsc = makeSortArrow("↑");
+        JButton sDesc = makeSortArrow("↓");
+        g.gridx = 1; body.add(sAsc, g);
+        g.gridx = 2; body.add(sDesc, g);
         togglePair(sAsc, sDesc);
 
         // Checkboxy filtrov
@@ -299,11 +304,21 @@ public class NaradieUI extends JFrame {
         JButton applyBtn = new JButton("Aplikovať");
         applyBtn.setBackground(ORANGE);
         applyBtn.setForeground(Color.WHITE);
-        applyBtn.setFocusPainted(false);
         applyBtn.addActionListener(e -> {
+            // Zistíme, ktorý sort bol označený
+            char kriterium = 'v'; // default
+            boolean vzostupne = false;
+
+            if (vAsc.getBackground().equals(ORANGE) || vDesc.getBackground().equals(ORANGE)) {
+                kriterium = 'v';
+                vzostupne = vAsc.getBackground().equals(ORANGE);
+            } else if (sAsc.getBackground().equals(ORANGE) || sDesc.getBackground().equals(ORANGE)) {
+                kriterium = 's';
+                vzostupne = sAsc.getBackground().equals(ORANGE);
+            }
+
             if (sortListener != null) {
-                boolean asc = vAsc.getBackground().equals(ORANGE);
-                sortListener.accept('v', asc);
+                sortListener.accept(kriterium, vzostupne);
             }
             dlg.dispose();
         });
@@ -315,9 +330,9 @@ public class NaradieUI extends JFrame {
     }
 
     // openEditModal - modal okno pre zmenu stavu konkretneho kusu naradia
-    public void openEditModal(int naradieId, String aktualnyStav) {
+        public void openEditModal(int naradieId, String aktualnyStav) {
         JDialog dlg = new JDialog(this, "Upraviť náradie", true);
-        dlg.setSize(260, 185);
+        dlg.setSize(280, 220);
         dlg.setLocationRelativeTo(this);
         dlg.setLayout(new BorderLayout());
 
@@ -326,42 +341,63 @@ public class NaradieUI extends JFrame {
         body.setBorder(BorderFactory.createEmptyBorder(14, 16, 8, 16));
         GridBagConstraints g = new GridBagConstraints();
         g.anchor = GridBagConstraints.WEST;
-        g.insets = new Insets(3, 3, 3, 3);
+        g.insets = new Insets(6, 4, 6, 4);
 
         g.gridx = 0; g.gridy = 0; g.gridwidth = 2;
-        JLabel title = new JLabel("Upraviť náradie");
-        title.setFont(new Font("SansSerif", Font.BOLD, 14));
-        body.add(title, g);
+        body.add(new JLabel("Upraviť náradie ID: " + naradieId), g);
 
         g.gridy = 1; g.gridwidth = 1;
-        body.add(new JLabel("Stav:"), g);
+        body.add(new JLabel("Nový stav:"), g);
 
-        boolean jeVypozicane = aktualnyStav.equals("Vypožičané");
-        JCheckBox cbVS = new JCheckBox("V Servise",     aktualnyStav.equals("V servise"));
-        JCheckBox cbVY = new JCheckBox("Vyradené",      aktualnyStav.equals("Vyradené"));
-        JCheckBox cbSN = new JCheckBox("Servis Neskôr", aktualnyStav.equals("Servis Neskôr"));
-        cbVS.setEnabled(!jeVypozicane); // vynimka - Vypozicane -> V servise nie je povolene
+        ButtonGroup group = new ButtonGroup();
 
-        JPanel cbPanel = new JPanel(new GridLayout(3, 1, 2, 2));
-        cbPanel.setBackground(Color.WHITE);
-        for (JCheckBox cb : new JCheckBox[]{cbVS, cbVY, cbSN}) {
-            cb.setBackground(Color.WHITE);
-            cbPanel.add(cb);
-        }
-        g.gridx = 1; body.add(cbPanel, g);
+        JRadioButton rbServis     = new JRadioButton("V servise");
+        JRadioButton rbVyradene   = new JRadioButton("Vyradené");
+        JRadioButton rbServisNeskor = new JRadioButton("Servis Neskôr");
+
+        // Predvyplnenie
+        if (aktualnyStav.equals("V servise")) rbServis.setSelected(true);
+        else if (aktualnyStav.equals("Vyradené")) rbVyradene.setSelected(true);
+        else if (aktualnyStav.equals("Servis Neskôr")) rbServisNeskor.setSelected(true);
+
+        group.add(rbServis);
+        group.add(rbVyradene);
+        group.add(rbServisNeskor);
+
+        JPanel radioPanel = new JPanel(new GridLayout(3, 1, 0, 6));
+        radioPanel.setBackground(Color.WHITE);
+        radioPanel.add(rbServis);
+        radioPanel.add(rbVyradene);
+        radioPanel.add(rbServisNeskor);
+
+        g.gridx = 1; g.gridy = 1;
+        body.add(radioPanel, g);
+
         dlg.add(body, BorderLayout.CENTER);
 
         JButton ok = new JButton("Potvrdiť");
-        ok.setBackground(ORANGE); ok.setForeground(Color.WHITE); ok.setFocusPainted(false);
+        ok.setBackground(ORANGE);
+        ok.setForeground(Color.WHITE);
+        ok.setFocusPainted(false);
         ok.addActionListener(e -> {
-            String novy = cbVS.isSelected() ? "V servise"
-                        : cbVY.isSelected() ? "Vyradené"
-                        : cbSN.isSelected() ? "Servis Neskôr" : null;
-            if (novy != null && editStavListener != null) editStavListener.accept(naradieId, novy);
+            String novyStav = null;
+            if (rbServis.isSelected()) novyStav = "V servise";
+            else if (rbVyradene.isSelected()) novyStav = "Vyradené";
+            else if (rbServisNeskor.isSelected()) novyStav = "Servis Neskôr";
+
+            if (novyStav != null && editStavListener != null) {
+                editStavListener.accept(naradieId, novyStav);
+            }
             dlg.dispose();
+            // vynutenie repaint tabulky, kedze sa to glitchovalo
+            SwingUtilities.invokeLater(() -> {
+                tabulkaNaradia.revalidate();
+                tabulkaNaradia.repaint();
+            });
         });
 
-        JPanel btnRow = new JPanel(); btnRow.setBackground(Color.WHITE); btnRow.add(ok);
+        JPanel btnRow = new JPanel(); btnRow.setBackground(Color.WHITE);
+        btnRow.add(ok);
         dlg.add(btnRow, BorderLayout.SOUTH);
         dlg.setVisible(true);
     }
@@ -392,9 +428,9 @@ public class NaradieUI extends JFrame {
     // zobrazZoznamNaradia - naplnime tabulku zoznamom naradia
     public void zobrazZoznamNaradia(List<Naradie> zoznam) {
         tableModel.setRowCount(0);
-        for (Naradie n : zoznam)
-            tableModel.addRow(new Object[]{n.getNazov(), n.getId(),
-                n.getVypozicaneCount(), n.getServisovaneCount(), n.getStav(), "✎"});
+        for (Naradie nar : zoznam)
+            tableModel.addRow(new Object[]{nar.getNazov(), nar.getId(),
+                nar.getVypozicaneCount(), nar.getServisovaneCount(), nar.getStav(), "✎"});
     }
 
     // zobrazZoradenyZoznam - naplnime tabulku zoradenim zoznamom

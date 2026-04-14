@@ -25,14 +25,26 @@ public class NaradieZoznam {
         zoznamNaradia.add(naradie);
     }
 
-    // zmenStav - zmenime stav konkretneho naradia podla ID, vratime false ak zmena nie je povolena
+    // zmenStav - zmenime stav konkretneho naradia podla ID + zvýšime príslušný counter, inak vratim false
     public boolean zmenStav(int id, String novyStav) {
-        for (Naradie n : zoznamNaradia) {
-            if (n.getId() == id) {
-                if (n.getStav().equals("Vypožičané") && novyStav.equals("V servise")) {
+        for (Naradie nar : zoznamNaradia) {
+            if (nar.getId() == id) {
+                // Zakázaná zmena: z Vypožičané na V servise
+                if (nar.getStav().equals("Vypožičané") && novyStav.equals("V servise")) {
                     return false;
                 }
-                n.setStav(novyStav);
+                String staryStav = nar.getStav();
+                nar.setStav(novyStav);
+
+                // Zvýšenie počítadiel podľa NOVÉHO stavu
+                if (novyStav.equals("Vypožičané")) {
+                    // Ak sa mení na Vypožičané, zvýšime vypozicaneCount
+                    nar.setVypozicaneCount(nar.getVypozicaneCount() + 1);
+                } 
+                else if (novyStav.equals("V servise") || novyStav.equals("Servis Neskôr")) {
+                    nar.setServisovaneCount(nar.getServisovaneCount() + 1);
+                }
+
                 return true;
             }
         }
@@ -54,12 +66,12 @@ public class NaradieZoznam {
     // filterZoznamBy - prefiltrujeme zoznam podla stavu naradia
     public List<Naradie> filterZoznamBy(String stav) {
         return zoznamNaradia.stream()
-                .filter(n -> n.getStav().equalsIgnoreCase(stav))
+                .filter(nar -> nar.getStav().equalsIgnoreCase(stav))
                 .collect(Collectors.toList());
     }
 
     // updateZoznam - odstranime vsetky naradia so stavom Vyradene zo zoznamu
     public void updateZoznam() {
-        zoznamNaradia.removeIf(n -> n.getStav().equals("Vyradené"));
+        zoznamNaradia.removeIf(nar -> nar.getStav().equals("Vyradené"));
     }
 }

@@ -42,13 +42,17 @@ public class NaradieController {
                         .ifPresent(Naradie::delete);
                 model.updateZoznam();
             } else {
-                // Zmena stavu - pokusime sa zmenit stav, spracujeme vynimku
+                // Zmena stavu - pokusime sa zmenit stav
                 boolean uspech = model.zmenStav(id, novyStav);
+                
                 if (!uspech) {
-                    view.zobrazSpravu("Náradie je Vypožičané. Zmena na 'V servise' nie je možná.");
-                    return;
+                    // Zakázaná zmena (Vypožičané → V servise)
+                    view.zobrazSpravu("Náradie je Vypožičané. Zmena na 'V servise' nie je možná.\n" +
+                                    "Môžete zvoliť 'Servis Neskôr' alebo 'Vyradené'.");
+                    return;   // ← zmena sa NEVYKONÁ
                 }
             }
+            // Refresh tabuľky po úspešnej zmene
             view.zobrazZoznamNaradia(model.getZoznam());
         });
     }

@@ -38,4 +38,14 @@ public class Naradie {
 
     // getServisovaneCount - vratime pocet servisovani naradia
     public int getServisovaneCount() { return servisovaneCount; }
+
+    // setVypozicaneCount - urcim novy pocet vypozicani naradia
+    public void setVypozicaneCount(int newVypozicaneCount) { 
+        this.vypozicaneCount = newVypozicaneCount; 
+    }
+
+    // setServisovaneCount - urcim novy pocet servisovani naradia
+    public void setServisovaneCount(int newServisovaneCount) { 
+        this.servisovaneCount = newServisovaneCount; 
+    }
 }
