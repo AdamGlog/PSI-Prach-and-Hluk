@@ -20,11 +20,13 @@ import javax.swing.SwingUtilities;
 
 import sk.prach.hluk.controller.NaradieController;
 import sk.prach.hluk.controller.NavratController;
+import sk.prach.hluk.controller.VypozickaController;
 import sk.prach.hluk.model.Naradie;
 import sk.prach.hluk.model.NaradieZoznam;
 import sk.prach.hluk.model.Vypozicka;
 import sk.prach.hluk.view.NaradieUI;
 import sk.prach.hluk.view.NavratUI;
+import sk.prach.hluk.view.VypozickaUI;
 
 public class PrachAndHluk {
 
@@ -74,6 +76,10 @@ public class PrachAndHluk {
             CardLayout cardLayout = new CardLayout();
             JPanel cardPanel = new JPanel(cardLayout);
 
+            // === UC2 VIEW + CONTROLLER ===
+            VypozickaUI uc2View = new VypozickaUI();
+            new VypozickaController(naradieModel, vypozicky, uc2View);
+
             // === UC3 VIEW + CONTROLLER ===
             NavratUI uc3View = new NavratUI();
             new NavratController(naradieModel, vypozicky, uc3View);
@@ -85,7 +91,7 @@ public class PrachAndHluk {
             // Extractujeme content pane z kazdeho JFrame a pridame do CardLayout
             // JFrame.getContentPane() vrati hlavny panel s headerom, centerom a footrom
             JPanel uc1Panel = buildPlaceholderPanel("UC1 – Prehliadanie katalógu", "Bude implementované v UC01");
-            JPanel uc2Panel = buildPlaceholderPanel("UC2 – Výpožička náradia",     "Bude implementované v UC02");
+            JPanel uc2Panel = (JPanel) uc2View.getContentPane();
             JPanel uc3Panel = (JPanel) uc3View.getContentPane();
             JPanel uc4Panel = (JPanel) uc4View.getContentPane();
 
@@ -102,7 +108,8 @@ public class PrachAndHluk {
             switchToUC[2] = () -> cardLayout.show(cardPanel, "UC3");
             switchToUC[3] = () -> cardLayout.show(cardPanel, "UC4");
 
-            // Odovzdame switch callback do UC3 a UC4 view
+            // Odovzdame switch callback do UC2, UC3 a UC4 view
+            uc2View.setUcSwitchCallback(switchToUC);
             uc3View.setUcSwitchCallback(switchToUC);
             uc4View.setUcSwitchCallback(switchToUC);
 
