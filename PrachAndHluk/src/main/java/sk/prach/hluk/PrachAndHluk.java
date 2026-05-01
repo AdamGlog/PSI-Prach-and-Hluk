@@ -18,12 +18,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import sk.prach.hluk.controller.KatalogController;
 import sk.prach.hluk.controller.NaradieController;
 import sk.prach.hluk.controller.NavratController;
 import sk.prach.hluk.controller.VypozickaController;
 import sk.prach.hluk.model.Naradie;
 import sk.prach.hluk.model.NaradieZoznam;
 import sk.prach.hluk.model.Vypozicka;
+import sk.prach.hluk.view.KatalogUI;
 import sk.prach.hluk.view.NaradieUI;
 import sk.prach.hluk.view.NavratUI;
 import sk.prach.hluk.view.VypozickaUI;
@@ -36,11 +38,11 @@ public class PrachAndHluk {
 
             // === ZDIELANY MODEL — rovnake naradie pre vsetky UC ===
             NaradieZoznam naradieModel = new NaradieZoznam();
-            naradieModel.pridatNaradie(new Naradie(4, "Vŕtačka Bosch",      "Vypožičané", 16, 2));
-            naradieModel.pridatNaradie(new Naradie(5, "Uhlovka Makita",      "Dostupné",    2, 0));
-            naradieModel.pridatNaradie(new Naradie(6, "Jadrový vrták 100mm", "V servise",  12, 1));
-            naradieModel.pridatNaradie(new Naradie(7, "Priamočiara píla",    "Vypožičané",  6, 0));
-            naradieModel.pridatNaradie(new Naradie(8, "Demolačné kladivo",   "Dostupné",    3, 0));
+            naradieModel.pridatNaradie(new Naradie(4, "Vŕtačka Bosch",       "Vŕtanie", "Vypožičané", 16, 2));
+            naradieModel.pridatNaradie(new Naradie(5, "Uhlovka Makita",      "Rezanie", "Dostupné",    2, 0));
+            naradieModel.pridatNaradie(new Naradie(6, "Jadrový vrták 100mm", "Vŕtanie", "V servise",  12, 1));
+            naradieModel.pridatNaradie(new Naradie(7, "Priamočiara píla",    "Rezanie", "Vypožičané",  6, 0));
+            naradieModel.pridatNaradie(new Naradie(8, "Demolačné kladivo",   "Búranie", "Dostupné",    3, 0));
 
             // === ZDIELANY MODEL — aktivne vypozicky pre UC03 ===
             List<Vypozicka> vypozicky = new ArrayList<>();
@@ -76,9 +78,15 @@ public class PrachAndHluk {
             CardLayout cardLayout = new CardLayout();
             JPanel cardPanel = new JPanel(cardLayout);
 
+<<<<<<< Updated upstream
             // === UC2 VIEW + CONTROLLER ===
             VypozickaUI uc2View = new VypozickaUI();
             new VypozickaController(naradieModel, vypozicky, uc2View);
+=======
+            // === UC1 VIEW + CONTROLLER ===
+            KatalogUI uc1View = new KatalogUI();
+            new KatalogController(naradieModel, uc1View);
+>>>>>>> Stashed changes
 
             // === UC3 VIEW + CONTROLLER ===
             NavratUI uc3View = new NavratUI();
@@ -90,8 +98,13 @@ public class PrachAndHluk {
 
             // Extractujeme content pane z kazdeho JFrame a pridame do CardLayout
             // JFrame.getContentPane() vrati hlavny panel s headerom, centerom a footrom
+<<<<<<< Updated upstream
             JPanel uc1Panel = buildPlaceholderPanel("UC1 – Prehliadanie katalógu", "Bude implementované v UC01");
             JPanel uc2Panel = (JPanel) uc2View.getContentPane();
+=======
+            JPanel uc1Panel = (JPanel) uc1View.getContentPane();
+            JPanel uc2Panel = buildPlaceholderPanel("UC2 – Výpožička náradia",     "Bude implementované v UC02");
+>>>>>>> Stashed changes
             JPanel uc3Panel = (JPanel) uc3View.getContentPane();
             JPanel uc4Panel = (JPanel) uc4View.getContentPane();
 
@@ -108,13 +121,18 @@ public class PrachAndHluk {
             switchToUC[2] = () -> cardLayout.show(cardPanel, "UC3");
             switchToUC[3] = () -> cardLayout.show(cardPanel, "UC4");
 
+<<<<<<< Updated upstream
             // Odovzdame switch callback do UC2, UC3 a UC4 view
             uc2View.setUcSwitchCallback(switchToUC);
+=======
+            // Odovzdame switch callback do UC1, UC3 a UC4 view
+            uc1View.setUcSwitchCallback(switchToUC);
+>>>>>>> Stashed changes
             uc3View.setUcSwitchCallback(switchToUC);
             uc4View.setUcSwitchCallback(switchToUC);
 
-            // Spustime na UC4 ako default (mozno zmenit)
-            cardLayout.show(cardPanel, "UC4");
+            // Spustime na UC1 ako default (mozno zmenit)
+            cardLayout.show(cardPanel, "UC1");
 
             mainFrame.setContentPane(cardPanel);
             mainFrame.setVisible(true);
