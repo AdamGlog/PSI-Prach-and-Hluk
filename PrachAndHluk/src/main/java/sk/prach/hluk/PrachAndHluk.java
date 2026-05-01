@@ -77,16 +77,13 @@ public class PrachAndHluk {
             // CardLayout - kazda karta je jeden UC panel
             CardLayout cardLayout = new CardLayout();
             JPanel cardPanel = new JPanel(cardLayout);
-
-<<<<<<< Updated upstream
-            // === UC2 VIEW + CONTROLLER ===
-            VypozickaUI uc2View = new VypozickaUI();
-            new VypozickaController(naradieModel, vypozicky, uc2View);
-=======
             // === UC1 VIEW + CONTROLLER ===
             KatalogUI uc1View = new KatalogUI();
             new KatalogController(naradieModel, uc1View);
->>>>>>> Stashed changes
+
+            // === UC2 VIEW + CONTROLLER ===
+            VypozickaUI uc2View = new VypozickaUI();
+            new VypozickaController(naradieModel, vypozicky, uc2View);
 
             // === UC3 VIEW + CONTROLLER ===
             NavratUI uc3View = new NavratUI();
@@ -98,13 +95,8 @@ public class PrachAndHluk {
 
             // Extractujeme content pane z kazdeho JFrame a pridame do CardLayout
             // JFrame.getContentPane() vrati hlavny panel s headerom, centerom a footrom
-<<<<<<< Updated upstream
-            JPanel uc1Panel = buildPlaceholderPanel("UC1 – Prehliadanie katalógu", "Bude implementované v UC01");
-            JPanel uc2Panel = (JPanel) uc2View.getContentPane();
-=======
             JPanel uc1Panel = (JPanel) uc1View.getContentPane();
-            JPanel uc2Panel = buildPlaceholderPanel("UC2 – Výpožička náradia",     "Bude implementované v UC02");
->>>>>>> Stashed changes
+            JPanel uc2Panel = (JPanel) uc2View.getContentPane();
             JPanel uc3Panel = (JPanel) uc3View.getContentPane();
             JPanel uc4Panel = (JPanel) uc4View.getContentPane();
 
@@ -121,13 +113,9 @@ public class PrachAndHluk {
             switchToUC[2] = () -> cardLayout.show(cardPanel, "UC3");
             switchToUC[3] = () -> cardLayout.show(cardPanel, "UC4");
 
-<<<<<<< Updated upstream
-            // Odovzdame switch callback do UC2, UC3 a UC4 view
-            uc2View.setUcSwitchCallback(switchToUC);
-=======
-            // Odovzdame switch callback do UC1, UC3 a UC4 view
+            // Odovzdame switch callback do UC1, UC2, UC3 a UC4 view
             uc1View.setUcSwitchCallback(switchToUC);
->>>>>>> Stashed changes
+            uc2View.setUcSwitchCallback(switchToUC);
             uc3View.setUcSwitchCallback(switchToUC);
             uc4View.setUcSwitchCallback(switchToUC);
 
