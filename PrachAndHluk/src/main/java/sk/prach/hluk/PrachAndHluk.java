@@ -47,7 +47,7 @@ public class PrachAndHluk {
 
         janNovak.prihlasit(1, "Ján", "Novák");
 
-        // 4. Zákazníci (podľa diagramov)
+        // 4. Zákazníci 
         Zakaznik zakaznik1 = new Zakaznik(101, "Ján", "Novák", "jan.novak@email.sk");
         podnik.zaevidovanieZakaznika();
         Zakaznik zakaznik2 = new Zakaznik(102, "Mária", "Kováčová", "maria@email.sk");
@@ -60,14 +60,14 @@ public class PrachAndHluk {
         zakaznik2.vstupDoPodniku();
         zakaznik3.vstupDoPodniku();
 
-        // 5. Zmluvy (podľa diagramov)
+        // 5. Zmluvy 
         Zmluva zmluva1 = new Zmluva(1001, LocalDate.now(), "Zmluva na vŕtačku", 80, 1, "Vytvorená");
         Zmluva zmluva2 = new Zmluva(1002, LocalDate.now(), "Zmluva na uhlovku", 50, 1, "Vytvorená");
 
         zmluva1.generate();
         zmluva2.generate();
 
-        // 6. Výpožičky (podľa diagramov)
+        // 6. Výpožičky 
         List<Vypozicka> vypozicky = new ArrayList<>();
         vypozicky.add(new Vypozicka(1001, 4, "Vŕtačka Bosch", 
                 "Ján Novák", "+421 911 111 111", 
@@ -97,17 +97,19 @@ public class PrachAndHluk {
             JPanel cardPanel = new JPanel(cardLayout);
             // === UC1 VIEW + CONTROLLER ===
             KatalogUI uc1View = new KatalogUI();
-            new KatalogController(naradieModel, uc1View);
+            KatalogController uc1Controller = new KatalogController(naradieModel, uc1View);
 
-            // === UC2, UC3, UC4 ===
+            // === UC2 VIEW + CONTROLLER ===
             VypozickaUI uc2View = new VypozickaUI();
-            new VypozickaController(naradieModel, vypozicky, uc2View);
+            VypozickaController uc2Controller = new VypozickaController(naradieModel, vypozicky, uc2View);
 
+            // === UC3 VIEW + CONTROLLER ===
             NavratUI uc3View = new NavratUI();
-            new NavratController(naradieModel, vypozicky, uc3View);
+            NavratController uc3Controller = new NavratController(naradieModel, vypozicky, uc3View);
 
+            // === UC4 VIEW + CONTROLLER ===
             NaradieUI uc4View = new NaradieUI();
-            new NaradieController(naradieModel, uc4View);
+            NaradieController uc4Controller = new NaradieController(naradieModel, uc4View);
 
             // Extractujeme content pane z kazdeho JFrame a pridame do CardLayout
             // JFrame.getContentPane() vrati hlavny panel s headerom, centerom a footrom
@@ -123,9 +125,26 @@ public class PrachAndHluk {
 
             Runnable[] switchToUC = new Runnable[4];
             switchToUC[0] = () -> cardLayout.show(cardPanel, "UC1");
-            switchToUC[1] = () -> cardLayout.show(cardPanel, "UC2");
-            switchToUC[2] = () -> cardLayout.show(cardPanel, "UC3");
-            switchToUC[3] = () -> cardLayout.show(cardPanel, "UC4");
+            switchToUC[0] = () -> {
+                cardLayout.show(cardPanel, "UC1");
+                // Refresh UC1 katalogu pri každom prepnutí
+                uc1Controller.initController();
+            };
+            switchToUC[1] = () -> {
+                cardLayout.show(cardPanel, "UC2");
+                // Refresh UC2 zoznamu pri každom prepnutí
+                List<Naradie> vsetky = naradieModel.getZoznam();
+                uc2View.zobrazNaradie(vsetky);
+            };
+            switchToUC[2] = () -> {
+                cardLayout.show(cardPanel, "UC3");
+                // Refresh UC3 zoznamu pri každom prepnutí
+                uc3View.zobrazVypozicky(vypozicky);
+            };
+            switchToUC[3] = () -> {
+                cardLayout.show(cardPanel, "UC4");
+                uc4View.zobrazZoznamNaradia(naradieModel.getZoznam());
+            };
 
             // Odovzdame switch callback do UC1, UC2, UC3 a UC4 view
             uc1View.setUcSwitchCallback(switchToUC);

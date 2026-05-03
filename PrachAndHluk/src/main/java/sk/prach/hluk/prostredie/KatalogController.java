@@ -18,7 +18,7 @@ public class KatalogController {
         initController();
     }
 
-    private void initController() {
+    public void initController() {
         // Ziskanie vsetkych nastrojov
         List<Naradie> vsetky = naradieModel.getZoznam();
 
