@@ -1,8 +1,6 @@
-package sk.prach.hluk.controller;
+package sk.prach.hluk.prostredie;
 
-import sk.prach.hluk.model.Naradie;
-import sk.prach.hluk.model.NaradieZoznam;
-import sk.prach.hluk.view.NaradieUI;
+import sk.prach.hluk.modely.Naradie;
 
 public class NaradieController {
 

@@ -1,4 +1,4 @@
-package sk.prach.hluk.model;
+package sk.prach.hluk.modely;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -7,7 +7,7 @@ import java.time.temporal.ChronoUnit;
  * Vypozicka - reprezentuje jednu aktivnu vypozicku naradia (UC03).
  * Obsahuje vsetky udaje potrebne pri procese navratenia naradia.
  */
-public class Vypozicka {
+public class Vypozicka implements Model{
 
     // Atributy vypozicky
     private int vypozickaId;
@@ -18,7 +18,7 @@ public class Vypozicka {
     private LocalDateTime datumVypozicania;
     private LocalDateTime datumPlanovanehNavratu;
     private double zaloha;
-    private String stavNaradia;       // stav pri vydani
+    private String stav;       // stav pri vydani
     private String ikonkaNaradia;     // emoji reprezentujuca ikonku náradia
 
     // Konstruktor - vytvorime novu vypozicku
@@ -34,7 +34,7 @@ public class Vypozicka {
         this.datumVypozicania     = datumVypozicania;
         this.datumPlanovanehNavratu = datumPlanovanehNavratu;
         this.zaloha               = zaloha;
-        this.stavNaradia          = "Vypožičané";
+        this.stav          = "Vypožičané";
         this.ikonkaNaradia        = ikonkaNaradia;
     }
 
@@ -62,11 +62,28 @@ public class Vypozicka {
     // getZaloha - vratime vysku zalohy
     public double getZaloha() { return zaloha; }
 
-    // getStavNaradia - vratime aktualny stav naradia
-    public String getStavNaradia() { return stavNaradia; }
+    // getStav - vratime aktualny stav naradia
+    @Override
+    public String getStav() { return stav; }
 
-    // setStavNaradia - nastavime novy stav naradia (vyplni zamestnanec pri navrate)
-    public void setStavNaradia(String stavNaradia) { this.stavNaradia = stavNaradia; }
+    // setStav - nastavime novy stav naradia (vyplni zamestnanec pri navrate)
+    @Override
+    public void setStav(String stav) { this.stav = stav; }
+
+    // delete - vymaže všetky atribúty (nastaví na null / default hodnoty)
+    @Override
+    public void delete() { 
+    this.vypozickaId = 0;
+    this.naradieId = 0;
+    this.naradieNazov = null;
+    this.zakaznikMeno = null;
+    this.zakaznikTelefon = null;
+    this.datumVypozicania = null;
+    this.datumPlanovanehNavratu = null;
+    this.zaloha = 0.0;
+    this.stav = null;
+    this.ikonkaNaradia = null;
+    }
 
     // getIkonkaNaradia - vratime emoji ikonku naradia
     public String getIkonkaNaradia() { return ikonkaNaradia; }
@@ -78,7 +95,7 @@ public class Vypozicka {
 
     // jePoskodene - vratime ci je naradie oznacene ako poskodene
     public boolean jePoskodene() {
-        return stavNaradia.equals("Poškodené");
+        return stav.equals("Poškodené");
     }
 
     // jeMeskanie - vratime ci je naradie vrátané po plánovanom dátume

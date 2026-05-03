@@ -1,12 +1,11 @@
-package sk.prach.hluk.controller;
+package sk.prach.hluk.prostredie;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-import sk.prach.hluk.model.Naradie;
-import sk.prach.hluk.model.NaradieZoznam;
-import sk.prach.hluk.model.Vypozicka;
-import sk.prach.hluk.view.VypozickaUI;
+
+import sk.prach.hluk.modely.Naradie;
+import sk.prach.hluk.modely.Vypozicka;
 
 /**
  * VypozickaController - prepája NaradieZoznam a UC02 View.

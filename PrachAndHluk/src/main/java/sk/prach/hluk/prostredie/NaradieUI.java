@@ -1,4 +1,4 @@
-package sk.prach.hluk.view;
+package sk.prach.hluk.prostredie;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -33,7 +33,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
-import sk.prach.hluk.model.Naradie;
+import sk.prach.hluk.modely.Naradie;
 
 public class NaradieUI extends JFrame {
 

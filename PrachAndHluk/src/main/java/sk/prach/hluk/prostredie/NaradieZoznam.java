@@ -1,9 +1,11 @@
-package sk.prach.hluk.model;
+package sk.prach.hluk.prostredie;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import sk.prach.hluk.modely.Naradie;
 
 public class NaradieZoznam {
 

@@ -1,6 +1,6 @@
-package sk.prach.hluk.model;
+package sk.prach.hluk.modely;
 
-public class Naradie {
+public class Naradie implements Model{
 
     // Atributy triedy Naradie podla class diagramu
     private int id;
@@ -25,12 +25,15 @@ public class Naradie {
     public String getNazov() { return nazov; }
 
     // getStav - vratime aktualny stav naradia
+    @Override
     public String getStav() { return stav; }
 
     // setStav - nastavime novy stav naradia
+    @Override
     public void setStav(String stav) { this.stav = stav; }
 
     // delete - oznacime naradie ako vyradene, fyzicke odstranenie robi NaradieZoznam
+    @Override
     public void delete() { this.stav = "Vyradené"; }
 
     // getVypozicaneCount - vratime pocet vypozicani naradia

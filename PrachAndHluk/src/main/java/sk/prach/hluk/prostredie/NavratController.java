@@ -1,10 +1,8 @@
-package sk.prach.hluk.controller;
-
-import sk.prach.hluk.model.NaradieZoznam;
-import sk.prach.hluk.model.Vypozicka;
-import sk.prach.hluk.view.NavratUI;
+package sk.prach.hluk.prostredie;
 
 import java.util.List;
+
+import sk.prach.hluk.modely.Vypozicka;
 
 /**
  * NavratController - controller pre UC03 Návrat náradia.

@@ -8,10 +8,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import sk.prach.hluk.controller.NaradieController;
-import sk.prach.hluk.model.Naradie;
-import sk.prach.hluk.model.NaradieZoznam;
-import sk.prach.hluk.view.NaradieUI;
+import sk.prach.hluk.modely.Naradie;
+import sk.prach.hluk.prostredie.NaradieController;
+import sk.prach.hluk.prostredie.NaradieUI;
+import sk.prach.hluk.prostredie.NaradieZoznam;
 
 class UC4AccTest {
 

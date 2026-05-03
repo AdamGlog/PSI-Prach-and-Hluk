@@ -1,17 +1,18 @@
 package sk.prach.hluk;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import sk.prach.hluk.model.Naradie;
-import sk.prach.hluk.model.NaradieZoznam;
-import sk.prach.hluk.model.Vypozicka;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import sk.prach.hluk.modely.Naradie;
+import sk.prach.hluk.modely.Vypozicka;
+import sk.prach.hluk.prostredie.NaradieZoznam;
 
 /**
  * UC03 Acceptance Tests (Akceptačné testy pre Návrat náradia)

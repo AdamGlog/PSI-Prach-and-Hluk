@@ -1,4 +1,4 @@
-package sk.prach.hluk.view;
+package sk.prach.hluk.prostredie;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -35,7 +35,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
-import sk.prach.hluk.model.Vypozicka;
+import sk.prach.hluk.modely.Vypozicka;
 
 /**
  * NavratUI - hlavne okno pre UC03 Návrat náradia.
@@ -277,7 +277,7 @@ public class NavratUI extends JFrame {
                 v.getDatumVypozicania().format(fmt) + "\n(" + v.getDlzkaPozicaniaDni() + " dní)",
                 v.getDatumPlanovanehNavratu().format(fmt) + meska,
                 String.format("%.2f", v.getZaloha()),
-                v.getStavNaradia(),
+                v.getStav(),
                 "Prevziať"
             });
         }
