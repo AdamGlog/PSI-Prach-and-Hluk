@@ -331,6 +331,16 @@ public class VypozickaUI extends JFrame {
 
         dlg.add(body, BorderLayout.CENTER);
         dlg.add(btns, BorderLayout.SOUTH);
+        
+        // Fix pre zatvaranie modalnych okien aby sa neglitchovalo pozadie
+        dlg.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                getContentPane().revalidate();
+                getContentPane().repaint();
+            }
+        });
+
         dlg.setVisible(true);
     }
 

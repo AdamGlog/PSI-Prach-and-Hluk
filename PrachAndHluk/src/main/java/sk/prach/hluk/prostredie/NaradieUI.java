@@ -326,6 +326,16 @@ public class NaradieUI extends JFrame {
         JPanel btnRow = new JPanel(); btnRow.setBackground(Color.WHITE);
         btnRow.add(applyBtn);
         dlg.add(btnRow, BorderLayout.SOUTH);
+        
+        // Fix pre zatvaranie modalnych okien aby sa neglitchovalo pozadie
+        dlg.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                getContentPane().revalidate();
+                getContentPane().repaint();
+            }
+        });
+
         dlg.setVisible(true);
     }
 
@@ -399,6 +409,16 @@ public class NaradieUI extends JFrame {
         JPanel btnRow = new JPanel(); btnRow.setBackground(Color.WHITE);
         btnRow.add(ok);
         dlg.add(btnRow, BorderLayout.SOUTH);
+
+        // Fix pre zatvaranie modalnych okien aby sa neglitchovalo pozadie
+        dlg.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                getContentPane().revalidate();
+                getContentPane().repaint();
+            }
+        });
+
         dlg.setVisible(true);
     }
 

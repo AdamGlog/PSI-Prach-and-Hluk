@@ -302,6 +302,15 @@ public class KatalogUI extends JFrame {
         btnRow.add(btnClose);
         dlg.add(btnRow, BorderLayout.SOUTH);
         
+        // Fix pre zatvaranie modalnych okien aby sa neglitchovalo pozadie
+        dlg.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                getContentPane().revalidate();
+                getContentPane().repaint();
+            }
+        });
+
         dlg.setVisible(true);
     }
 
@@ -532,6 +541,15 @@ public class KatalogUI extends JFrame {
         
         btnRow.add(btnClose);
         dlg.add(btnRow, BorderLayout.SOUTH);
+
+        // Fix pre zatvaranie modalnych okien aby sa neglitchovalo pozadie
+        dlg.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                getContentPane().revalidate();
+                getContentPane().repaint();
+            }
+        });
 
         dlg.setVisible(true);
     }
