@@ -529,21 +529,6 @@ public class KatalogUI extends JFrame {
         btnClose.setFocusPainted(false);
         btnClose.addActionListener(e -> dlg.dispose());
         
-        // Tlačidlo rezervovať ak je dostupné
-        if ("Dostupné".equalsIgnoreCase(n.getStav())) {
-            JButton btnRes = new JButton("Rezervovať");
-            btnRes.setBackground(ORANGE);
-            btnRes.setForeground(Color.WHITE);
-            btnRes.setFocusPainted(false);
-            btnRes.addActionListener(e -> {
-                javax.swing.JOptionPane.showMessageDialog(dlg, "Prechod na UC2 (Výpožička) zatiaľ nie je implementovaný.", "Info", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-                dlg.dispose();
-                if (ucSwitchCallback != null && ucSwitchCallback.length > 1) {
-                    ucSwitchCallback[1].run(); // Switch to UC2
-                }
-            });
-            btnRow.add(btnRes);
-        }
         
         btnRow.add(btnClose);
         dlg.add(btnRow, BorderLayout.SOUTH);

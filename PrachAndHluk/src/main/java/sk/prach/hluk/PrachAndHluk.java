@@ -124,7 +124,6 @@ public class PrachAndHluk {
             cardPanel.add(uc4Panel, "UC4");
 
             Runnable[] switchToUC = new Runnable[4];
-            switchToUC[0] = () -> cardLayout.show(cardPanel, "UC1");
             switchToUC[0] = () -> {
                 cardLayout.show(cardPanel, "UC1");
                 // Refresh UC1 katalogu pri každom prepnutí
@@ -133,8 +132,7 @@ public class PrachAndHluk {
             switchToUC[1] = () -> {
                 cardLayout.show(cardPanel, "UC2");
                 // Refresh UC2 zoznamu pri každom prepnutí
-                List<Naradie> vsetky = naradieModel.getZoznam();
-                uc2View.zobrazNaradie(vsetky);
+                uc2View.zobrazNaradie(naradieModel.getZoznam());
             };
             switchToUC[2] = () -> {
                 cardLayout.show(cardPanel, "UC3");
@@ -143,6 +141,7 @@ public class PrachAndHluk {
             };
             switchToUC[3] = () -> {
                 cardLayout.show(cardPanel, "UC4");
+                // Refresh UC4 zoznamu pri každom prepnutí
                 uc4View.zobrazZoznamNaradia(naradieModel.getZoznam());
             };
 
