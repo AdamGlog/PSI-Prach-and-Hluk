@@ -3,7 +3,11 @@ Psi projekt
 
 ### Ako spustit aplikaciu
 nutna nainstalovana maven
-```cd PrachAndHluk```
+```folder
+cd PrachAndHluk
+```
 a tam: 
-```PrachAndHluk> mvn exec:java```
+```spustenie
+PrachAndHluk> mvn exec:java
+```
 alebo v IntelliJ s otvorenou hlavnou metodou (PrachAndHluk) a stlacenim zeleneho tlacidla pre spustenie
