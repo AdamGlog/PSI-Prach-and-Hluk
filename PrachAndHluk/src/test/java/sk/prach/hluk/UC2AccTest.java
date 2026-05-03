@@ -1,17 +1,17 @@
 package sk.prach.hluk;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import sk.prach.hluk.model.Naradie;
-import sk.prach.hluk.model.NaradieZoznam;
-import sk.prach.hluk.model.Vypozicka;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import sk.prach.hluk.model.Naradie;
+import sk.prach.hluk.model.NaradieZoznam;
+import sk.prach.hluk.model.Vypozicka;
 
 /**
  * UC02 Acceptance Tests (Akceptačné testy pre Vypožičaj náradie)
@@ -24,10 +24,10 @@ class UC2AccTest {
     @BeforeEach
     void setUp() {
         naradieModel = new NaradieZoznam();
-        naradieModel.pridatNaradie(new Naradie(5, "Uhlovka Makita",      "Dostupné",    2, 0));
-        naradieModel.pridatNaradie(new Naradie(6, "Jadrový vrták 100mm", "V servise",  12, 1));
-        naradieModel.pridatNaradie(new Naradie(4, "Vŕtačka Bosch",      "Vypožičané", 16, 2));
-
+        naradieModel.pridatNaradie(new Naradie(5, "Uhlovka Makita",      "Rezanie", "Dostupné",    2, 0));
+        naradieModel.pridatNaradie(new Naradie(6, "Jadrový vrták 100mm", "Vŕtanie", "V servise",  12, 1));
+        naradieModel.pridatNaradie(new Naradie(4, "Vŕtačka Bosch",       "Vŕtanie", "Vypožičané", 16, 2));
+        
         aktivneVypozicky = new ArrayList<>();
     }
 

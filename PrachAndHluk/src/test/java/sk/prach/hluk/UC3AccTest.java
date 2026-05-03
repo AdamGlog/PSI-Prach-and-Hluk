@@ -1,17 +1,18 @@
 package sk.prach.hluk;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import sk.prach.hluk.model.Naradie;
-import sk.prach.hluk.model.NaradieZoznam;
-import sk.prach.hluk.model.Vypozicka;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import sk.prach.hluk.model.Naradie;
+import sk.prach.hluk.model.NaradieZoznam;
+import sk.prach.hluk.model.Vypozicka;
 
 /**
  * UC03 Acceptance Tests (Akceptačné testy pre Návrat náradia)
@@ -33,8 +34,9 @@ class UC3AccTest {
     void setUp() {
         // === Model NaradieZoznam (zdieľaný s UC03) ===
         naradieModel = new NaradieZoznam();
-        naradieModel.pridatNaradie(new Naradie(4, "Vŕtačka Bosch", "Vypožičané", 16, 2));
-        naradieModel.pridatNaradie(new Naradie(7, "Priamočiara píla", "Vypožičané", 6, 0));
+        naradieModel.pridatNaradie(new Naradie(4, "Vŕtačka Bosch",       "Vŕtanie", "Vypožičané", 16, 2));
+        naradieModel.pridatNaradie(new Naradie(7, "Priamočiara píla",    "Rezanie", "Vypožičané",  6, 0));
+                
 
         // === Aktívne výpožičky (testovacie dáta z PrachAndHlukUC03.java) ===
         aktivneVypozicky = new ArrayList<>();
