@@ -1,21 +1,12 @@
 package sk.prach.hluk;
 
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.GridBagLayout;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -26,6 +17,8 @@ import sk.prach.hluk.osoby.Zakaznik;
 import sk.prach.hluk.osoby.Zamestnanec;
 import sk.prach.hluk.podnik.InternyProjekt;         
 import sk.prach.hluk.podnik.Podnik;
+import sk.prach.hluk.prostredie.KatalogController;
+import sk.prach.hluk.prostredie.KatalogUI;
 import sk.prach.hluk.prostredie.NaradieController;
 import sk.prach.hluk.prostredie.NaradieUI;
 import sk.prach.hluk.prostredie.NaradieZoznam;
@@ -87,11 +80,11 @@ public class PrachAndHluk {
 
         // === ZDIELANÝ MODEL — rovnake naradie pre vsetky UC ===
         NaradieZoznam naradieModel = new NaradieZoznam();
-        naradieModel.pridatNaradie(new Naradie(4, "Vŕtačka Bosch", "Vypožičané", 16, 2));
-        naradieModel.pridatNaradie(new Naradie(5, "Uhlovka Makita", "Dostupné", 2, 0));
-        naradieModel.pridatNaradie(new Naradie(6, "Jadrový vrták 100mm", "V servise", 12, 1));
-        naradieModel.pridatNaradie(new Naradie(7, "Priamočiara píla", "Vypožičané", 6, 0));
-        naradieModel.pridatNaradie(new Naradie(8, "Demolačné kladivo", "Dostupné", 3, 0));
+        naradieModel.pridatNaradie(new Naradie(4, "Vŕtačka Bosch",       "Vŕtanie", "Vypožičané", 16, 2));
+        naradieModel.pridatNaradie(new Naradie(5, "Uhlovka Makita",      "Rezanie", "Dostupné",    2, 0));
+        naradieModel.pridatNaradie(new Naradie(6, "Jadrový vrták 100mm", "Vŕtanie", "V servise",  12, 1));
+        naradieModel.pridatNaradie(new Naradie(7, "Priamočiara píla",    "Rezanie", "Vypožičané",  6, 0));
+        naradieModel.pridatNaradie(new Naradie(8, "Demolačné kladivo",   "Búranie", "Dostupné",    3, 0));
 
         // === HLAVNÉ OKNO s CardLayout ===
         SwingUtilities.invokeLater(() -> {
@@ -102,6 +95,9 @@ public class PrachAndHluk {
 
             CardLayout cardLayout = new CardLayout();
             JPanel cardPanel = new JPanel(cardLayout);
+            // === UC1 VIEW + CONTROLLER ===
+            KatalogUI uc1View = new KatalogUI();
+            new KatalogController(naradieModel, uc1View);
 
             // === UC2, UC3, UC4 ===
             VypozickaUI uc2View = new VypozickaUI();
@@ -113,7 +109,9 @@ public class PrachAndHluk {
             NaradieUI uc4View = new NaradieUI();
             new NaradieController(naradieModel, uc4View);
 
-            JPanel uc1Panel = buildPlaceholderPanel("UC1 – Prehliadanie katalógu", "Bude implementované v UC01");
+            // Extractujeme content pane z kazdeho JFrame a pridame do CardLayout
+            // JFrame.getContentPane() vrati hlavny panel s headerom, centerom a footrom
+            JPanel uc1Panel = (JPanel) uc1View.getContentPane();
             JPanel uc2Panel = (JPanel) uc2View.getContentPane();
             JPanel uc3Panel = (JPanel) uc3View.getContentPane();
             JPanel uc4Panel = (JPanel) uc4View.getContentPane();
@@ -129,41 +127,18 @@ public class PrachAndHluk {
             switchToUC[2] = () -> cardLayout.show(cardPanel, "UC3");
             switchToUC[3] = () -> cardLayout.show(cardPanel, "UC4");
 
+            // Odovzdame switch callback do UC1, UC2, UC3 a UC4 view
+            uc1View.setUcSwitchCallback(switchToUC);
             uc2View.setUcSwitchCallback(switchToUC);
             uc3View.setUcSwitchCallback(switchToUC);
             uc4View.setUcSwitchCallback(switchToUC);
 
-            cardLayout.show(cardPanel, "UC4");
+            // Spustime na UC1 ako default (mozno zmenit)
+            cardLayout.show(cardPanel, "UC1");
+
             mainFrame.setContentPane(cardPanel);
             mainFrame.setVisible(true);
         });
     }
 
-    // buildPlaceholderPanel zostáva rovnaký ako mal
-    private static JPanel buildPlaceholderPanel(String nazov, String popis) {
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(new Color(0xBA, 0xBA, 0xBA));
-        JPanel center = new JPanel(new GridBagLayout());
-        center.setBackground(new Color(0xD9, 0xD9, 0xD9));
-        center.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
-        JPanel card = new JPanel();
-        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-        card.setBackground(Color.WHITE);
-        card.setBorder(BorderFactory.createEmptyBorder(30, 40, 30, 40));
-        JLabel titleLbl = new JLabel(nazov);
-        titleLbl.setFont(new Font("SansSerif", Font.BOLD, 22));
-        titleLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JLabel opisLbl = new JLabel(popis);
-        opisLbl.setFont(new Font("SansSerif", Font.PLAIN, 15));
-        opisLbl.setForeground(new Color(0x90, 0x90, 0x90));
-        opisLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
-        card.add(Box.createVerticalStrut(10));
-        card.add(titleLbl);
-        card.add(Box.createVerticalStrut(10));
-        card.add(opisLbl);
-        card.add(Box.createVerticalStrut(10));
-        center.add(card);
-        panel.add(center, BorderLayout.CENTER);
-        return panel;
-    }
 }

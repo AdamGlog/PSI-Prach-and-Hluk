@@ -24,12 +24,12 @@ class UC4AccTest {
         // Vytvoríme čistý model pre každý test
         model = new NaradieZoznam();
 
-        // Testovacie dáta podľa tvojho mainu
-        model.pridatNaradie(new Naradie(4, "Vŕtačka Bosch",      "Vypožičané", 16, 2));
-        model.pridatNaradie(new Naradie(5, "Uhlovka Makita",      "Dostupné",     2, 0));
-        model.pridatNaradie(new Naradie(6, "Jadrový vrták 100mm", "V servise",   12, 1));
-        model.pridatNaradie(new Naradie(7, "Priamočiara píla",    "Vypožičané",   6, 0));
-        model.pridatNaradie(new Naradie(8, "Demolačné kladivo",   "Dostupné",     3, 0));
+        // Testovacie dáta podľa 
+        model.pridatNaradie(new Naradie(4, "Vŕtačka Bosch",       "Vŕtanie", "Vypožičané", 16, 2));
+        model.pridatNaradie(new Naradie(5, "Uhlovka Makita",      "Rezanie", "Dostupné",    2, 0));
+        model.pridatNaradie(new Naradie(6, "Jadrový vrták 100mm", "Vŕtanie", "V servise",  12, 1));
+        model.pridatNaradie(new Naradie(7, "Priamočiara píla",    "Rezanie", "Vypožičané",  6, 0));
+        model.pridatNaradie(new Naradie(8, "Demolačné kladivo",   "Búranie", "Dostupné",    3, 0));
 
         view = new NaradieUI();
         controller = new NaradieController(model, view);

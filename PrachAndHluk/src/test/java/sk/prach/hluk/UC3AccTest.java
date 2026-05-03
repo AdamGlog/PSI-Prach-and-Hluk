@@ -34,8 +34,9 @@ class UC3AccTest {
     void setUp() {
         // === Model NaradieZoznam (zdieľaný s UC03) ===
         naradieModel = new NaradieZoznam();
-        naradieModel.pridatNaradie(new Naradie(4, "Vŕtačka Bosch", "Vypožičané", 16, 2));
-        naradieModel.pridatNaradie(new Naradie(7, "Priamočiara píla", "Vypožičané", 6, 0));
+        naradieModel.pridatNaradie(new Naradie(4, "Vŕtačka Bosch",       "Vŕtanie", "Vypožičané", 16, 2));
+        naradieModel.pridatNaradie(new Naradie(7, "Priamočiara píla",    "Rezanie", "Vypožičané",  6, 0));
+                
 
         // === Aktívne výpožičky (testovacie dáta z PrachAndHlukUC03.java) ===
         aktivneVypozicky = new ArrayList<>();

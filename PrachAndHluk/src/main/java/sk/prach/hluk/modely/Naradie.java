@@ -5,14 +5,16 @@ public class Naradie implements Model{
     // Atributy triedy Naradie podla class diagramu
     private int id;
     private String nazov;
+    private String kategoria;
     private String stav;
     private int vypozicaneCount;
     private int servisovaneCount;
 
     // Konstruktor - vytvorime novy kus naradia
-    public Naradie(int id, String nazov, String stav, int vypozicaneCount, int servisovaneCount) {
+    public Naradie(int id, String nazov, String kategoria, String stav, int vypozicaneCount, int servisovaneCount) {
         this.id = id;
         this.nazov = nazov;
+        this.kategoria = kategoria;
         this.stav = stav;
         this.vypozicaneCount = vypozicaneCount;
         this.servisovaneCount = servisovaneCount;
@@ -23,6 +25,9 @@ public class Naradie implements Model{
 
     // getNazov - vratime nazov naradia
     public String getNazov() { return nazov; }
+
+    // getKategoria - vratime kategoriu naradia
+    public String getKategoria() { return kategoria; }
 
     // getStav - vratime aktualny stav naradia
     @Override
